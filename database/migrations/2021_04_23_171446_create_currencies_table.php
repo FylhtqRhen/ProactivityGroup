@@ -18,6 +18,7 @@ class CreateCurrenciesTable extends Migration
             $table->string('char_code', 3);
             $table->string('name');
             $table->float('rate');
+            $table->date('date');
             $table->timestamps();
         });
     }

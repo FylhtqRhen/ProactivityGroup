@@ -15,10 +15,14 @@ class CreateCurrencyHistoryTable extends Migration
     {
         Schema::create('currency_history', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('currencies_id');
+            $table->string('currency_id');
             $table->date('date');
             $table->float('rate');
             $table->timestamps();
+        });
+
+        Schema::table('currency_history', function (Blueprint $table) {
+            $table->foreign('currency_id')->references('id')->on('currencies');
         });
     }
 
@@ -29,6 +33,10 @@ class CreateCurrencyHistoryTable extends Migration
      */
     public function down()
     {
+        Schema::table('currency_history', function (Blueprint $table) {
+            $table->dropForeign('currency_history_currency_id_foreign');
+        });
         Schema::dropIfExists('currency_history');
+
     }
 }
