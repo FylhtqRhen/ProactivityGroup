@@ -27,15 +27,11 @@ class Handler extends ExceptionHandler
         'password_confirmation',
     ];
 
-    /**
-     * Register the exception handling callbacks for the application.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->reportable(function (Throwable $e) {
-            //
-        });
-    }
+     public function render($request, Throwable $e)
+     {
+         if ($e instanceof ApiException) {
+             return $e->render();
+         }
+         return parent::render($request, $e);
+     }
 }
