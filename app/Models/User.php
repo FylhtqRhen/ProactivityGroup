@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
@@ -52,5 +53,16 @@ class User extends Authenticatable
             throw new ApiException('Неверный логин или пароль', 401);
         }
         return $user->token;
+    }
+
+    public static function authoriseByToken(string $token)
+    {
+        $user = self::query()
+            ->where('token', $token)
+            ->first();
+        if(!$user) {
+            throw new ApiException();
+        }
+        Auth::onceUsingId($user->id);
     }
 }
