@@ -15,7 +15,7 @@ class CreateCurrencyHistoryTable extends Migration
     {
         Schema::create('currency_history', function (Blueprint $table) {
             $table->id();
-            $table->string('currency_id');
+            $table->unsignedBigInteger('currency_id');
             $table->date('date');
             $table->float('rate');
             $table->timestamps();

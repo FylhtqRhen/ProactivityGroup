@@ -52,7 +52,6 @@ class UpdateCurrency extends Command
         foreach ($file as $currency) {
             if ($charCode && $charCode == $currency->CharCode) {
                 $currencies[] = [
-                    'id' => (string)$currency->attributes()['ID'],
                     'char_code' => (string)$currency->CharCode,
                     'name' => (string)$currency->Name,
                     'rate' => $currency->Value / $currency->Nominal,
@@ -61,7 +60,6 @@ class UpdateCurrency extends Command
                 break;
             } elseif (!$charCode) {
                 $currencies[] = [
-                    'id' => (string)$currency->attributes()['ID'],
                     'char_code' => (string)$currency->CharCode,
                     'name' => (string)$currency->Name,
                     'rate' => $currency->Value / $currency->Nominal,
@@ -70,10 +68,12 @@ class UpdateCurrency extends Command
             }
         }
         foreach ($currencies as $currencyInfo) {
-            $currency = Currency::find($currencyInfo['id']);
+            $currency = Currency::query()
+                ->where('char_code', $currencyInfo['char_code'])
+                ->first();
             if ($currency) {
                 $history = new CurrencyHistory();
-                $history->currency_id = $currencyInfo['id'];
+                $history->currency_id = $currency->id;
                 $history->date = \Carbon\Carbon::now()->format('Y-m-d');
                 $history->rate = $currency->rate;
                 $history->save();
