@@ -23,6 +23,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/login', [APIController::class, 'login'])->name('login');
 
-Route::middleware('api.token')->get('/currencies', [APIController::class, 'getCurrencies']);
+Route::middleware('api.token')->get('/currencies', [APIController::class, 'currencies']);
+
+Route::middleware('api.token')->get('/currencies/{currency}', [APIController::class, 'currency'])->where('id', '[0-9]+');
 
 
