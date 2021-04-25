@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CurrensiesRequest;
 use App\Http\Requests\LoginRequest;
-use App\Http\Resources\CurrencyCollection;
 use App\Http\Resources\CurrencyResource;
 use App\Http\Resources\CurrencyResourceCollection;
 use App\Http\Resources\UserTokenResource;
